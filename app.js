@@ -31,8 +31,6 @@ function initialize() {
 
   // Este es para el lio opcional.
   imageWrapper = document.querySelector('#images-wrapper');
-  window.img = imageWrapper;
-
 
   // creamos la lista en el DOM:
   list.forEach((item) => {
