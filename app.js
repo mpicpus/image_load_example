@@ -53,7 +53,7 @@ function initialize() {
 }
 
 
-// Esto es lo basico.
+//////// ##### Esto es lo basico. #### //////////
 
 // Si quieres, el resto es por liarla.
 // El modelo básico tiene una pega: las imágenes se vuelven a cargar cada vez que haces hover.
