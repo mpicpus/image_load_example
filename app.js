@@ -1,3 +1,9 @@
+// Este listener es muy practico para arrancar solo cuando el contenido esta cargado.
+window.addEventListener('DOMContentLoaded', (event) => {
+  initialize();
+})
+
+
 // Aqui los datos (aqui un amigo...)
 let list = [
   {
@@ -92,9 +98,3 @@ function loadItAll() {
     loadItemImage(item)
   })
 }
-
-
-// Este listener es muy practico para arrancar solo cuando el contenido esta cargado.
-window.addEventListener('DOMContentLoaded', (event) => {
-  initialize();
-})
