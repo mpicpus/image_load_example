@@ -27,7 +27,7 @@ let imageWrapper; // for the "premium" version.
 // #### Configuration variables ####
 
 // Toggle between image load versions.
-let useEfficientLoad = false;
+let useEfficientLoad = true;
 // Trigger eager load of all images on app initialization.
 let eagerLoad = false;
 
