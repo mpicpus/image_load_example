@@ -1,10 +1,10 @@
-// Este listener es muy practico para arrancar solo cuando el contenido esta cargado.
+// My current listener of choice to run any content-dependant code.
 window.addEventListener('DOMContentLoaded', (event) => {
   initialize();
 })
 
 
-// Aqui los datos (aqui un amigo...)
+// Data structure, as simple as possible.
 let list = [
   {
     name: 'monkey01',
@@ -21,76 +21,96 @@ let list = [
 ]
 
 let imgFolder = "./monkeys";
-let imageWrapper; // Esto es para el lio opcional
+let imageWrapper; // for the "premium" version.
 
-// Aqui el bacalao...
+
+// #### Configuration variables ####
+
+// Toggle between image load versions.
+let useEfficientLoad = false;
+// Trigger eager load of all images on app initialization.
+let eagerLoad = false;
+
+
+// Main initializer
 function initialize() {
-  // referencia a los elementos que necesitamos:
+  // Reference the needed elements.
   let ulElement = document.querySelector('#list');
   let imageElement = document.querySelector('#the-image');
 
-  // Este es para el lio opcional.
+  // This is for the "premium" version.
   imageWrapper = document.querySelector('#images-wrapper');
 
-  // creamos la lista en el DOM:
+  // Create unordered list in the DOM:
   list.forEach((item) => {
     let newItem = document.createElement('li');
     newItem.innerText = item.text;
 
     ulElement.appendChild(newItem);
 
-    // Cada elemento con su listener y el callback...
-    // Haciendolo asi no nos hace falta depender del evento o el id del elemento.
+    // Every element will have its listener and callback.
     newItem.addEventListener('mouseover', () => {
-      imageElement.src = `${imgFolder}/${item.name}.jpg`;
-      // onListHover(item); // => esta es parte opcional, ya por liarla parda del todo.
+      if (useEfficientLoad)
+        onListHover(item); // PREMIUM version: efficient image load!
+      else
+        imageElement.src = `${imgFolder}/${item.name}.jpg`; // BASIC version. Images are re-loaded from server on every call.
     })
   })
 
-  // loadItAll(); // Si descomentas esta linea, todas las imagenes se cargan al principio.
+  // Load all images at the beginning. For sprite-like scenarios might come in handy.
+  if (eagerLoad)
+    loadItAll();
 }
 
 
-//////// ##### Esto es lo basico. #### //////////
+//////// ##### Code ends here in the Basic version. #####
 
-// Si quieres, el resto es por liarla.
-// El modelo básico tiene una pega: las imágenes se vuelven a cargar cada vez que haces hover.
-// El modelo chulo las carga solo una vez (a la vez al principio o cuando se necesitan, depende de la linea 46).
-// Comentas la linea 41 y descomentas la 42 y opcionalmente la 46, la idea sería la misma.
+// The added code below fuels the PREMIUM alternative, with a version of efficient image load.
+// Basic mode is simpler but has a big drawback: images are re-loaded from server on every call.
+// We can do better.
+//
+// Premium mode will load each image only once
+//    (all at the beginning if "eagerLoad" is enabled, useful for sprite-like scenarios,
+//    or later, one by one, when they are needed)
+// and reuse them later directly from memory.
 
 
+// If the image was already loaded, we simply inject it;
+// else we call the loader function.
 function onListHover(item) {
-  loadItemImage(item).then(() => {
+  if (item.image)
     renderImage(item.image)
-  })
+  else
+    loadItemImage(item).then(() => {
+      renderImage(item.image)
+    })
 }
 
 
+// Loads the image and injects it into our data object for future reference.
+// Returns a promise: execution can be resumed when the image is effectively loaded.
 function loadItemImage(item) {
   return new Promise((resolve, reject) => {
-    if (item.image){
-      resolve();
-      return;
-    };
-
     let image = new Image();
     image.src = `${imgFolder}/${item.name}.jpg`;
 
-    image.addEventListener('load', resolve);
-
     item.image = image;
+
+    // Load process starts when we set the 'src' attribute,
+    // but it takes time to complete, so we'll return the fulfilled promise when load is finished.
+    image.addEventListener('load', resolve);
   })
 }
 
 
+// Simple image substitution. Refactor to your needs.
 function renderImage(image) {
   imageWrapper.innerHTML = '';
   imageWrapper.appendChild(image);
 }
 
 
-// opcional:
-// cargamos las imagenes previamente, para que no haya tiempo de espera.
+// Optional: eager load all images, useful for sprite-like scenarios.
 function loadItAll() {
   list.forEach((item) => {
     loadItemImage(item)
