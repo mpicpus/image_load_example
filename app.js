@@ -8,15 +8,18 @@ window.addEventListener('DOMContentLoaded', (event) => {
 let list = [
   {
     name: 'monkey01',
-    text: 'This is an awesome image'
+    text: 'This is an awesome image',
+    class: 'monkey-class1'
   },
   {
     name: 'monkey02',
-    text: 'This is another awesome image'
+    text: 'This is another awesome image',
+    class: 'monkey-class2'
   },
   {
     name: 'monkey03',
-    text: 'Yet another one'
+    text: 'Yet another one',
+    class: 'monkey-class3'
   }
 ]
 
@@ -35,7 +38,7 @@ let eagerLoad = false;
 // Main initializer
 function initialize() {
   // Reference the needed elements.
-  let ulElement = document.querySelector('#list');
+  let listWrapper = document.querySelector('#list');
   let imageElement = document.querySelector('#the-image');
 
   // This is for the "premium" version.
@@ -43,10 +46,11 @@ function initialize() {
 
   // Create unordered list in the DOM:
   list.forEach((item) => {
-    let newItem = document.createElement('li');
+    let newItem = document.createElement('div');
     newItem.innerText = item.text;
+    newItem.classList.add(item.class);
 
-    ulElement.appendChild(newItem);
+    listWrapper.appendChild(newItem);
 
     // Every element will have its listener and callback.
     newItem.addEventListener('mouseover', () => {
@@ -65,7 +69,7 @@ function initialize() {
 
 //////// ##### Code ends here in the Basic version. #####
 
-// The added code below fuels the PREMIUM alternative, with a version of efficient image load.
+// The added code below fuels the PREMIUM alternative with a version of efficient image load.
 // Basic mode is simpler but has a big drawback: images are re-loaded from server on every call.
 // We can do better.
 //
@@ -105,8 +109,13 @@ function loadItemImage(item) {
 
 // Simple image substitution. Refactor to your needs.
 function renderImage(image) {
-  imageWrapper.innerHTML = '';
-  imageWrapper.appendChild(image);
+  imageWrapper.classList.remove('visible');
+
+  setTimeout(() => {
+    imageWrapper.innerHTML = '';
+    imageWrapper.appendChild(image);
+    imageWrapper.classList.add('visible')
+  }, 300)
 }
 
 
