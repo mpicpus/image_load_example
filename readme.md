@@ -7,7 +7,7 @@ Pardon the lack of style, it's irrelevant to the matter at hand.
 
 All the relevant code is at `app.js`.
 
-## Basic difference
+## Main difference
 The "Basic" version event callback simply replaces `img.src`, which always triggers a new load from the server.
 
 The "Premium" version (😅) will store a new `Image` object on load and inject it into the wrapper when requested, instead. 
