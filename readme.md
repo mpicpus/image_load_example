@@ -5,6 +5,8 @@ It's up to you to decide where to put the stress, depending on your project spec
 
 Pardon the lack of style, it's irrelevant to the matter at hand.
 
+All the relevant code is at `app.js`.
+
 To visually test the difference, follow these steps:
 - Download the code and open `index.html` in browser (Chrome ideally).
 - Open Chrome dev tools, open the "Network" tab and select "Img".
