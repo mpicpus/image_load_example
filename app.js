@@ -109,17 +109,13 @@ function loadItemImage(item) {
 
 // Simple image substitution. Refactor to your needs.
 function renderImage(image) {
-  imageWrapper.classList.remove('visible');
-
-  setTimeout(() => {
-    imageWrapper.innerHTML = '';
-    imageWrapper.appendChild(image);
-    imageWrapper.classList.add('visible')
-  }, 300)
+  imageWrapper.innerHTML = '';
+  imageWrapper.appendChild(image);
 }
 
 
 // Optional: eager load all images, useful for sprite-like scenarios.
+// Ideally we also return a Promise (Promise.all()) here, but let's keep it simple.
 function loadItAll() {
   list.forEach((item) => {
     loadItemImage(item)
