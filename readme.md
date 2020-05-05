@@ -10,6 +10,7 @@ To visually test the difference, follow these steps:
 - Open Chrome dev tools, open the "Network" tab and select "Img".
 <img src="readme_assets/2020-05-02_02-49.png" width="400">
 - Leave the optional flags as they are for the first iteration:
+
 ```javascript
 // #### Configuration variables ####
 
@@ -18,6 +19,7 @@ let useEfficientLoad = false;
 // Trigger eager load of all images on app initialization.
 let eagerLoad = false;
 ```
+
 - The code will create a simple list. Upon "hover" javascript will inject a different image on the dome.
 ___
 ### 1. Basic mode (non-efficient)
