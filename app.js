@@ -24,13 +24,13 @@ let list = [
 ]
 
 let imgFolder = "./monkeys";
-let imageWrapper; // for the "premium" version.
+let imageWrapper, imageElement, listWrapper;
 
 
 // #### Configuration variables ####
 
 // Toggle between image load versions.
-let useEfficientLoad = true;
+let useEfficientLoad = false;
 // Trigger eager load of all images on app initialization.
 let eagerLoad = false;
 
@@ -38,8 +38,8 @@ let eagerLoad = false;
 // Main initializer
 function initialize() {
   // Reference the needed elements.
-  let listWrapper = document.querySelector('#list');
-  let imageElement = document.querySelector('#the-image');
+  listWrapper = document.querySelector('#list');
+  imageElement = document.querySelector('#the-image');
 
   // This is for the "premium" version.
   imageWrapper = document.querySelector('#images-wrapper');
@@ -54,10 +54,7 @@ function initialize() {
 
     // Every element will have its listener and callback.
     newItem.addEventListener('mouseover', () => {
-      if (useEfficientLoad)
-        onListHover(item); // PREMIUM version: efficient image load!
-      else
-        imageElement.src = `${imgFolder}/${item.name}.jpg`; // BASIC version. Images are re-loaded from server on every call.
+      onListHover(item);
     })
   })
 
@@ -82,12 +79,27 @@ function initialize() {
 // If the image was already loaded, we simply inject it;
 // else we call the loader function.
 function onListHover(item) {
+  if (!useEfficientLoad) {
+    simpleImgLoad(item);
+    return
+  }
+
   if (item.image)
     renderImage(item.image)
   else
     loadItemImage(item).then(() => {
       renderImage(item.image)
     })
+}
+
+function simpleImgLoad(item) {
+  console.log('here')
+  imageWrapper.classList.remove('visible');
+
+  setTimeout(() => {
+    imageElement.src = `${imgFolder}/${item.name}.jpg`; 
+    imageWrapper.classList.add('visible');
+  }, 50)
 }
 
 
@@ -111,7 +123,6 @@ function loadItemImage(item) {
 // This one will toggle ".visible" class with a slight (50ms) fade while switching images.
 function renderImage(image) {
   imageWrapper.classList.remove('visible');
-
   setTimeout(() => {
     imageWrapper.innerHTML = '';
     imageWrapper.appendChild(image);
