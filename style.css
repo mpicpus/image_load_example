@@ -1,0 +1,8 @@
+#images-wrapper {
+  opacity: 0;
+  transition: opacity 300ms;
+}
+
+#images-wrapper.visible {
+  opacity: 1;
+}
