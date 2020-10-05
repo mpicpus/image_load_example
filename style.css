@@ -1,8 +1,13 @@
 #images-wrapper {
+  width: 100%;
   opacity: 0;
-  transition: opacity 300ms;
+  transition: opacity 50ms;
 }
 
 #images-wrapper.visible {
   opacity: 1;
+}
+
+#images-wrapper img {
+  max-width: 100%;
 }

@@ -69,9 +69,9 @@ function initialize() {
 
 //////// ##### Code ends here in the Basic version. #####
 
-// The added code below fuels the PREMIUM alternative with a version of efficient image load.
-// Basic mode is simpler but has a big drawback: images are re-loaded from server on every call.
-// We can do better.
+// The added code below fuels the PREMIUM alternative with a version of in-memory image load.
+// Basic mode is simpler but has a possible drawback: images are re-loaded from server/browser cache on every call.
+// It might be just a slight difference, but the load event is triggered. Maybe we can do better.
 //
 // Premium mode will load each image only once
 //    (all at the beginning if "eagerLoad" is enabled, useful for sprite-like scenarios,
@@ -109,8 +109,13 @@ function loadItemImage(item) {
 
 // Simple image substitution. Refactor to your needs.
 function renderImage(image) {
-  imageWrapper.innerHTML = '';
-  imageWrapper.appendChild(image);
+  imageWrapper.classList.remove('visible');
+
+  setTimeout(() => {
+    imageWrapper.innerHTML = '';
+    imageWrapper.appendChild(image);
+    imageWrapper.classList.add('visible');
+  }, 50)
 }
 
 
