@@ -108,6 +108,7 @@ function loadItemImage(item) {
 
 
 // Simple image substitution. Refactor to your needs.
+// This one will toggle ".visible" class with a slight (50ms) fade while switching images.
 function renderImage(image) {
   imageWrapper.classList.remove('visible');
 
